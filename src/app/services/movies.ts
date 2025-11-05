@@ -18,7 +18,11 @@ export class MoviesService {
     query += `&api_key=${ apiKey }&language=es&include_image_language=es`;
     return this.http.get<T>( query );
   }
-
+  getPopulares(): Observable<RespuestaMDB> {
+    const query = '/discover/movie?sort_by=popularity.desc';
+    return this.ejecutarQuery<RespuestaMDB>(query);
+  }
+  
   getFeature(): Observable<RespuestaMDB> {
     const hoy = new Date();
     const ultimoDia = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();

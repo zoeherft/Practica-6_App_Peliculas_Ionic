@@ -10,6 +10,7 @@ import { MoviesService } from '../services/movies';
 })
 export class Tab1Page implements OnInit {
   peliculasRecientes: Pelicula[] = [];
+  populares: Pelicula[] = [];
 
   constructor(private moviesService: MoviesService) {}
 
@@ -18,5 +19,10 @@ export class Tab1Page implements OnInit {
       console.log('Resp', resp);
       this.peliculasRecientes = resp.results;
     });
+    this.moviesService.getPopulares().subscribe((resp: RespuestaMDB) => {
+      console.log('Populares', resp);
+      this.populares = resp.results;
+    });
   }
+
 }

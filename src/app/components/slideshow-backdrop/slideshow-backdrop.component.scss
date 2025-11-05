@@ -1,4 +1,4 @@
-.slides-wrapper {
+﻿.slides-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,9 +12,13 @@
   gap: 1rem;
   padding: 0 1rem;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar in IE/Edge legacy */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   scroll-behavior: smooth;
+}
+
+.slides-container::-webkit-scrollbar {
+  display: none;
 }
 
 .slide-item {
@@ -43,21 +47,17 @@
   height: 2.5rem;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   color: #fff;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .nav-button:hover:not([disabled]) {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 .nav-button[disabled] {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: default;
-}
-
-.slides-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in WebKit browsers */
 }

@@ -1,0 +1,20 @@
+<ion-grid [fixed]="!small" *ngIf="pares.length">
+  <ion-row *ngFor="let par of pares">
+    <ion-col [size]="small ? 6 : 12" [sizeMd]="small ? 3 : 6" *ngFor="let pelicula of par">
+      <ion-card>
+        <img
+          [src]="pelicula.poster_path ? (pelicula.poster_path | imagen) : (pelicula.backdrop_path ? (pelicula.backdrop_path | imagen) : '')"
+          [alt]="pelicula.title || 'Sin titulo'"
+        />
+        <ion-card-header>
+          <ion-card-title>{{ pelicula.title }}</ion-card-title>
+          <ion-card-subtitle>{{ pelicula.release_date }}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-card *ngIf="!pares.length">
+  <ion-card-content>No hay elementos para mostrar.</ion-card-content>
+</ion-card>

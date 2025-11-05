@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Películas</ion-title>
+    <ion-title>Peliculas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,7 +8,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <h3>Películas Nuevas</h3>
+        <h3>Peliculas Nuevas</h3>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -18,10 +18,20 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <h3>Recomendadas</h3>
+        <h3>Cartelera</h3>
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <app-slideshow-poster [peliculas]="peliculasRecientes"></app-slideshow-poster>
+ 
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <h3>Populares</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-pares [peliculas]="populares" [small]="true"></app-slideshow-pares>
 </ion-content>

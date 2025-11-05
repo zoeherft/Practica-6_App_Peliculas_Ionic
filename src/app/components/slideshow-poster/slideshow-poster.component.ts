@@ -49,8 +49,25 @@ export class SlideshowPosterComponent implements AfterViewInit, OnChanges {
       return;
     }
 
-    const offset = direction === 'next' ? container.clientWidth * 0.8 : -container.clientWidth * 0.8;
-    container.scrollBy({ left: offset, behavior: 'smooth' });
+    const maxScrollLeft = Math.max(container.scrollWidth - container.clientWidth, 0);
+    const atStart = container.scrollLeft <= 1;
+    const atEnd = container.scrollLeft >= maxScrollLeft - 1;
+    const offset = container.clientWidth * 0.8;
+
+    if (direction === 'next' && atEnd) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction === 'prev' && atStart) {
+      container.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
+      return;
+    }
+
+    container.scrollBy({
+      left: direction === 'next' ? offset : -offset,
+      behavior: 'smooth',
+    });
   }
 
   onScroll(): void {
@@ -66,14 +83,12 @@ export class SlideshowPosterComponent implements AfterViewInit, OnChanges {
 
   private updateScrollButtons(): void {
     const container = this.posterContainer?.nativeElement;
-    if (!container) {
-      this.canScrollPrev = false;
-      this.canScrollNext = false;
-      return;
-    }
+    const canScroll =
+      !!container &&
+      container.scrollWidth > container.clientWidth &&
+      (this.peliculas?.length ?? 0) > 1;
 
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-    this.canScrollPrev = container.scrollLeft > 0;
-    this.canScrollNext = container.scrollLeft < maxScrollLeft - 1;
+    this.canScrollPrev = canScroll;
+    this.canScrollNext = canScroll;
   }
 }

@@ -1,5 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+﻿import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { Pelicula } from '../../interfaces/interfaces';
 import { ImagenPipe } from '../../pipes/imagen-pipe';
@@ -11,14 +20,19 @@ import { ImagenPipe } from '../../pipes/imagen-pipe';
   standalone: true,
   imports: [CommonModule, IonicModule, ImagenPipe],
 })
-export class SlideshowBackdropComponent implements AfterViewInit {
+export class SlideshowBackdropComponent implements AfterViewInit, OnChanges {
   @Input() peliculas: Pelicula[] = [];
   @ViewChild('slidesContainer') private slidesContainer?: ElementRef<HTMLDivElement>;
 
   canScrollPrev = false;
   canScrollNext = false;
-
   private scrollFrame = 0;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['peliculas']) {
+      queueMicrotask(() => this.updateScrollButtons());
+    }
+  }
 
   ngAfterViewInit(): void {
     queueMicrotask(() => this.updateScrollButtons());
@@ -35,8 +49,25 @@ export class SlideshowBackdropComponent implements AfterViewInit {
       return;
     }
 
-    const offset = direction === 'next' ? container.clientWidth : -container.clientWidth;
-    container.scrollBy({ left: offset, behavior: 'smooth' });
+    const maxScrollLeft = Math.max(container.scrollWidth - container.clientWidth, 0);
+    const atStart = container.scrollLeft <= 1;
+    const atEnd = container.scrollLeft >= maxScrollLeft - 1;
+    const offset = container.clientWidth * 0.8;
+
+    if (direction === 'next' && atEnd) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction === 'prev' && atStart) {
+      container.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
+      return;
+    }
+
+    container.scrollBy({
+      left: direction === 'next' ? offset : -offset,
+      behavior: 'smooth',
+    });
   }
 
   onScroll(): void {
@@ -52,14 +83,12 @@ export class SlideshowBackdropComponent implements AfterViewInit {
 
   private updateScrollButtons(): void {
     const container = this.slidesContainer?.nativeElement;
-    if (!container) {
-      this.canScrollPrev = false;
-      this.canScrollNext = false;
-      return;
-    }
+    const canScroll =
+      !!container &&
+      container.scrollWidth > container.clientWidth &&
+      (this.peliculas?.length ?? 0) > 1;
 
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-    this.canScrollPrev = container.scrollLeft > 0;
-    this.canScrollNext = container.scrollLeft < maxScrollLeft - 1;
+    this.canScrollPrev = canScroll;
+    this.canScrollNext = canScroll;
   }
 }
