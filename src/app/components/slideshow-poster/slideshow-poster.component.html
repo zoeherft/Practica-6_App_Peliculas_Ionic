@@ -11,7 +11,7 @@
 
   <div class="poster-container" #posterContainer (scroll)="onScroll()">
     <div class="poster-item" *ngFor="let pelicula of peliculas">
-      <ion-card mode="ios">
+      <ion-card mode="ios" (click)="verDetalle(pelicula.id)">
         <img
           class="poster"
           [src]="pelicula.poster_path ? (pelicula.poster_path | imagen) : ''"

@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,16 +9,18 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonCard, IonIcon } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular';
 import { Pelicula } from '../../interfaces/interfaces';
 import { ImagenPipe } from '../../pipes/imagen-pipe';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
   selector: 'app-slideshow-poster',
   templateUrl: './slideshow-poster.component.html',
   styleUrls: ['./slideshow-poster.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ImagenPipe],
+  imports: [CommonModule, IonCard, IonIcon, ImagenPipe],
 })
 export class SlideshowPosterComponent implements AfterViewInit, OnChanges {
   @Input() peliculas: Pelicula[] = [];
@@ -27,6 +29,8 @@ export class SlideshowPosterComponent implements AfterViewInit, OnChanges {
   canScrollPrev = false;
   canScrollNext = false;
   private scrollFrame = 0;
+
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['peliculas']) {
@@ -79,6 +83,15 @@ export class SlideshowPosterComponent implements AfterViewInit, OnChanges {
       this.scrollFrame = 0;
       this.updateScrollButtons();
     });
+  }
+
+  async verDetalle(id: number): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: { id },
+    });
+
+    await modal.present();
   }
 
   private updateScrollButtons(): void {

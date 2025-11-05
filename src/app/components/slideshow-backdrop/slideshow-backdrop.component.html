@@ -1,4 +1,4 @@
-﻿<div class="slides-wrapper" *ngIf="peliculas.length">
+<div class="slides-wrapper" *ngIf="peliculas.length">
   <button
     type="button"
     class="nav-button prev"
@@ -6,12 +6,12 @@
     [disabled]="!canScrollPrev"
     aria-label="Ver anterior"
   >
-    <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+    <ion-icon name="chevron-back-outline"></ion-icon>
   </button>
 
   <div class="slides-container" #slidesContainer (scroll)="onScroll()">
     <div class="slide-item" *ngFor="let pelicula of peliculas">
-      <ion-card>
+      <ion-card (click)="verDetalle(pelicula.id)">
         <img
           [src]="pelicula.backdrop_path ? (pelicula.backdrop_path | imagen) : ''"
           [alt]="pelicula.title || 'Sin titulo'"
@@ -27,6 +27,10 @@
     [disabled]="!canScrollNext"
     aria-label="Ver siguiente"
   >
-    <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+    <ion-icon name="chevron-forward-outline"></ion-icon>
   </button>
 </div>
+
+<ion-card *ngIf="!peliculas.length">
+  <ion-card-content>No hay elementos para mostrar.</ion-card-content>
+</ion-card>

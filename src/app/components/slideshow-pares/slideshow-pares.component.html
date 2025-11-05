@@ -6,6 +6,7 @@
         *ngFor="let pelicula of par"
         [src]="pelicula.poster_path ? (pelicula.poster_path | imagen) : ''"
         [alt]="pelicula.title || 'Sin titulo'"
+        (click)="verDetalle(pelicula.id)"
       />
     </div>
     <div class="poster-pair pair-add">
