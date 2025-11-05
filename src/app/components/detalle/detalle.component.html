@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-toolbar>
-    <ion-title>Detalle</ion-title>
+    <ion-title>{{ pelicula?.title ?? 'Detalle' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrar()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
