@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RespuestaMDB } from '../interfaces/interfaces';
@@ -11,30 +11,21 @@ const apiKey = environment.apiKey;
   providedIn: 'root',
 })
 export class MoviesService {
-  constructor( private http: HttpClient ) { }
+  private popularesPage = 0;
 
-  private ejecutarQuery<T>( query: string ): Observable<T> {
+  constructor(private http: HttpClient) {}
+
+  private ejecutarQuery<T>(query: string): Observable<T> {
     query = URL + query;
-    query += `&api_key=${ apiKey }&language=es&include_image_language=es`;
-    return this.http.get<T>( query );
+    query += `&api_key=${apiKey}&language=es&include_image_language=es`;
+    return this.http.get<T>(query);
   }
-  getPopulares(): Observable<RespuestaMDB> {
-    const query = '/discover/movie?sort_by=popularity.desc';
-    return this.ejecutarQuery<RespuestaMDB>(query);
-  }
-  
+
   getFeature(): Observable<RespuestaMDB> {
     const hoy = new Date();
     const ultimoDia = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
     const mes = hoy.getMonth() + 1;
-
-    let mesString: string;
-
-    if (mes < 10) {
-      mesString = '0' + mes;
-    } else {
-      mesString = '' + mes;
-    }
+    const mesString = mes < 10 ? `0${mes}` : `${mes}`;
 
     const inicio = `${hoy.getFullYear()}-${mesString}-01`;
     const fin = `${hoy.getFullYear()}-${mesString}-${ultimoDia}`;
@@ -42,5 +33,15 @@ export class MoviesService {
     return this.ejecutarQuery<RespuestaMDB>(
       `/discover/movie?primary_release_date.gte=${inicio}&primary_release_date.lte=${fin}`
     );
+  }
+
+  resetPopulares(): void {
+    this.popularesPage = 0;
+  }
+
+  getPopulares(): Observable<RespuestaMDB> {
+    this.popularesPage += 1;
+    const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPage}`;
+    return this.ejecutarQuery<RespuestaMDB>(query);
   }
 }

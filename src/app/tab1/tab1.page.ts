@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Pelicula, RespuestaMDB } from '../interfaces/interfaces';
 import { MoviesService } from '../services/movies';
 
@@ -16,13 +16,22 @@ export class Tab1Page implements OnInit {
 
   ngOnInit(): void {
     this.moviesService.getFeature().subscribe((resp: RespuestaMDB) => {
-      console.log('Resp', resp);
       this.peliculasRecientes = resp.results;
     });
-    this.moviesService.getPopulares().subscribe((resp: RespuestaMDB) => {
-      console.log('Populares', resp);
-      this.populares = resp.results;
-    });
+
+    this.moviesService.resetPopulares();
+    this.populares = [];
+    this.cargarMas();
   }
 
+  cargarMas(): void {
+    this.getPopulares();
+  }
+
+  private getPopulares(): void {
+    this.moviesService.getPopulares().subscribe((resp: RespuestaMDB) => {
+      const arrTemp = [...this.populares, ...resp.results];
+      this.populares = arrTemp;
+    });
+  }
 }

@@ -1,8 +1,7 @@
-﻿.slides-wrapper {
+.slides-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
 }
 
 .slides-container {
@@ -10,7 +9,7 @@
   flex: 1;
   overflow-x: auto;
   gap: 1rem;
-  padding: 0 1rem;
+  padding: 0 3rem;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -40,6 +39,9 @@
 }
 
 .nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,6 +53,15 @@
   color: #fff;
   cursor: pointer;
   transition: background 0.2s ease;
+  z-index: 2;
+}
+
+.nav-button.prev {
+  left: 0.75rem;
+}
+
+.nav-button.next {
+  right: 0.75rem;
 }
 
 .nav-button:hover:not([disabled]) {

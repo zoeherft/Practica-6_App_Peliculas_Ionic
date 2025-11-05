@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { Pelicula } from '../../interfaces/interfaces';
 import { ImagenPipe } from '../../pipes/imagen-pipe';
@@ -13,7 +13,7 @@ import { ImagenPipe } from '../../pipes/imagen-pipe';
 })
 export class SlideshowParesComponent {
   @Input() peliculas: Pelicula[] = [];
-  @Input() small = false;
+  @Output() verMas = new EventEmitter<void>();
 
   get pares(): Pelicula[][] {
     const resultado: Pelicula[][] = [];
@@ -21,5 +21,9 @@ export class SlideshowParesComponent {
       resultado.push(this.peliculas.slice(index, index + 2));
     }
     return resultado;
+  }
+
+  onClick(): void {
+    this.verMas.emit();
   }
 }
