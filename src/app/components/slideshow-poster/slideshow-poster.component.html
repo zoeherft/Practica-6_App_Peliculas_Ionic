@@ -1,0 +1,33 @@
+<div class="poster-wrapper" *ngIf="peliculas.length">
+  <button
+    type="button"
+    class="nav-button prev"
+    (click)="scroll('prev')"
+    [disabled]="!canScrollPrev"
+    aria-label="Ver anterior"
+  >
+    <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+  </button>
+
+  <div class="poster-container" #posterContainer (scroll)="onScroll()">
+    <div class="poster-item" *ngFor="let pelicula of peliculas">
+      <ion-card mode="ios">
+        <img
+          class="poster"
+          [src]="pelicula.poster_path ? (pelicula.poster_path | imagen) : ''"
+          [alt]="pelicula.title || 'Sin titulo'"
+        />
+      </ion-card>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="nav-button next"
+    (click)="scroll('next')"
+    [disabled]="!canScrollNext"
+    aria-label="Ver siguiente"
+  >
+    <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+  </button>
+</div>

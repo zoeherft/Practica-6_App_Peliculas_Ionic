@@ -1,0 +1,62 @@
+﻿.poster-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.poster-container {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+  gap: 0.75rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.poster-container::-webkit-scrollbar {
+  display: none;
+}
+
+.poster-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
+.poster-item ion-card {
+  --background: transparent;
+  box-shadow: none;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.poster-item img {
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.nav-button:hover:not([disabled]) {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.nav-button[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
