@@ -22,6 +22,7 @@ import { ImagenPipe } from '../../pipes/imagen-pipe';
 import { Cast, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies';
 import { Router } from '@angular/router';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-detalle',
@@ -57,7 +58,11 @@ export class DetalleComponent implements OnInit {
   mostrarOverviewCompleto = false;
   private navCtrl = inject(NavController);
 
-  constructor(private moviesService: MoviesService, private modalCtrl: ModalController) {}
+  constructor(
+    private moviesService: MoviesService,
+    private modalCtrl: ModalController,
+    private dataLocal: DataLocalService
+  ) {}
 
   ngOnInit(): void {
     if (this.id == null) {
@@ -85,7 +90,11 @@ export class DetalleComponent implements OnInit {
   }
 
   favorito(): void {
-    console.log('favorito: ', this.pelicula?.id);
+    if (!this.pelicula) {
+      return;
+    }
+
+    this.dataLocal.guardarPelicula(this.pelicula);
   }
 
   cerrar(): void {
