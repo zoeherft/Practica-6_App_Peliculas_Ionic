@@ -1,20 +1,37 @@
-﻿import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { Credits, PeliculaDetalle } from '../../interfaces/interfaces';
+import { Cast, Credits, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies';
 import { DetalleComponent } from './detalle.component';
 
 class ModalControllerStub {
-  dismiss = jasmine.createSpy('dismiss');
+  dismiss = jasmine.createSpy('dismiss').and.resolveTo();
+}
+
+class RouterStub {
+  navigateByUrl = jasmine.createSpy('navigateByUrl').and.resolveTo(true);
 }
 
 describe('DetalleComponent', () => {
   let component: DetalleComponent;
   let fixture: ComponentFixture<DetalleComponent>;
 
-  const detalleMock = { id: 1, title: 'Test' } as PeliculaDetalle;
-  const actoresMock = { cast: [] } as Credits;
+  const detalleMock = { id: 1, title: 'Test', overview: 'overview' } as PeliculaDetalle;
+  const actoresLista: Cast[] = [
+    {
+      cast_id: 1,
+      character: 'Hero',
+      credit_id: 'abc',
+      gender: 1,
+      id: 100,
+      name: 'Actriz Test',
+      order: 0,
+      profile_path: '/test.jpg',
+    },
+  ];
+  const actoresMock = { cast: actoresLista } as Credits;
 
   const moviesServiceStub = jasmine.createSpyObj<MoviesService>('MoviesService', [
     'getPeliculaDetalle',
@@ -28,6 +45,7 @@ describe('DetalleComponent', () => {
       imports: [DetalleComponent],
       providers: [
         { provide: ModalController, useClass: ModalControllerStub },
+        { provide: Router, useClass: RouterStub },
         { provide: MoviesService, useValue: moviesServiceStub },
       ],
     }).compileComponents();
@@ -44,5 +62,15 @@ describe('DetalleComponent', () => {
 
   it('should assign pelicula when detail is returned', () => {
     expect(component.pelicula).toEqual(detalleMock);
+  });
+
+  it('should assign actores when credits are returned', () => {
+    expect(component.actores).toEqual(actoresLista);
+  });
+
+  it('should show full overview after verMas', () => {
+    expect((component as any).mostrarOverviewCompleto).toBeFalse();
+    component.verMas();
+    expect((component as any).mostrarOverviewCompleto).toBeTrue();
   });
 });

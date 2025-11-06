@@ -23,11 +23,47 @@
   left: 5px;
 }
 
-.card-actor {
-  height: 210px;
+.overview-text {
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+  color: #1f1f1f;
+}
+
+.actores-row {
+  --ion-grid-column-padding: 8px;
+}
+
+.actor-card {
+  background: #f4f5f8;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 220px;
+}
+
+.actor-photo {
+  width: 100%;
+  max-width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
 .actor-name {
-  position: relative;
-  top: 15px;
+  margin-top: 12px;
+  text-align: center;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.acciones {
+  margin-top: 16px;
+}
+
+.acciones ion-button {
+  text-transform: uppercase;
 }

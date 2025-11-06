@@ -1,9 +1,9 @@
-﻿import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, inject } from '@angular/core';
 import {
   IonButtons,
-  IonButton,
   IonCard,
+  IonButton,
   IonContent,
   IonCol,
   IonGrid,
@@ -15,11 +15,13 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
+  IonChip,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { ImagenPipe } from '../../pipes/imagen-pipe';
-import { PeliculaDetalle } from '../../interfaces/interfaces';
+import { Cast, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle',
@@ -32,24 +34,30 @@ import { MoviesService } from '../../services/movies';
     IonToolbar,
     IonTitle,
     IonButtons,
+    IonCard,
     IonButton,
     IonIcon,
     IonContent,
     IonGrid,
     IonRow,
     IonCol,
-    IonCard,
     IonItem,
     IonLabel,
     IonNote,
+    IonChip,
     ImagenPipe,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DetalleComponent implements OnInit {
   @Input() id?: number;
   pelicula?: PeliculaDetalle;
+  actores: Cast[] = [];
+  oculto = 150;
+  mostrarOverviewCompleto = false;
+  private router = inject(Router);
 
-  constructor(private modalCtrl: ModalController, private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService, private modalCtrl: ModalController) {}
 
   ngOnInit(): void {
     if (this.id == null) {
@@ -63,10 +71,27 @@ export class DetalleComponent implements OnInit {
 
     this.moviesService.getActoresPelicula(String(this.id)).subscribe((resp) => {
       console.log('DetalleComponent actores', resp);
+      this.actores = resp.cast ?? [];
     });
+  }
+
+  verMas(): void {
+    this.mostrarOverviewCompleto = true;
+  }
+
+  async regresar(): Promise<void> {
+    await this.modalCtrl.dismiss();
+    await this.router.navigateByUrl('/tabs/tab1');
+  }
+
+  favorito(): void {
+    console.log('favorito: ', this.pelicula?.id);
   }
 
   cerrar(): void {
     this.modalCtrl.dismiss();
   }
 }
+
+
+
