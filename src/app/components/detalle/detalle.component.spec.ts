@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { Cast, Credits, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies';
@@ -10,8 +9,8 @@ class ModalControllerStub {
   dismiss = jasmine.createSpy('dismiss').and.resolveTo();
 }
 
-class RouterStub {
-  navigateByUrl = jasmine.createSpy('navigateByUrl').and.resolveTo(true);
+class NavControllerStub {
+  navigateRoot = jasmine.createSpy('navigateRoot');
 }
 
 describe('DetalleComponent', () => {
@@ -45,7 +44,7 @@ describe('DetalleComponent', () => {
       imports: [DetalleComponent],
       providers: [
         { provide: ModalController, useClass: ModalControllerStub },
-        { provide: Router, useClass: RouterStub },
+        { provide: NavController, useClass: NavControllerStub },
         { provide: MoviesService, useValue: moviesServiceStub },
       ],
     }).compileComponents();
@@ -74,3 +73,5 @@ describe('DetalleComponent', () => {
     expect((component as any).mostrarOverviewCompleto).toBeTrue();
   });
 });
+
+

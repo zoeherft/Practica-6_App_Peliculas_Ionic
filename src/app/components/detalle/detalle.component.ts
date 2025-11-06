@@ -17,7 +17,7 @@ import {
   IonToolbar,
   IonChip,
 } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ImagenPipe } from '../../pipes/imagen-pipe';
 import { Cast, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies';
@@ -53,9 +53,9 @@ export class DetalleComponent implements OnInit {
   @Input() id?: number;
   pelicula?: PeliculaDetalle;
   actores: Cast[] = [];
-  oculto = 150;
+  oculto = 280;
   mostrarOverviewCompleto = false;
-  private router = inject(Router);
+  private navCtrl = inject(NavController);
 
   constructor(private moviesService: MoviesService, private modalCtrl: ModalController) {}
 
@@ -81,7 +81,7 @@ export class DetalleComponent implements OnInit {
 
   async regresar(): Promise<void> {
     await this.modalCtrl.dismiss();
-    await this.router.navigateByUrl('/tabs/tab1');
+    this.navCtrl.navigateRoot('/tabs/tab1');
   }
 
   favorito(): void {
@@ -92,6 +92,8 @@ export class DetalleComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 }
+
+
 
 
 
