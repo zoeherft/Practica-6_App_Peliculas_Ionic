@@ -1,7 +1,8 @@
 ﻿import { Component } from '@angular/core';
-import { SearchbarCustomEvent } from '@ionic/angular';
+import { ModalController, SearchbarCustomEvent } from '@ionic/angular';
 import { Pelicula, RespuestaMDB } from '../interfaces/interfaces';
 import { MoviesService } from '../services/movies';
+import { DetalleComponent } from '../components/detalle/detalle.component';
 
 @Component({
   selector: 'app-tab2',
@@ -11,6 +12,7 @@ import { MoviesService } from '../services/movies';
 })
 export class Tab2Page {
   textoBuscar = '';
+  buscando = false;
   peliculas: Pelicula[] = [];
   ideas: string[] = [
     'Spiderman',
@@ -30,9 +32,7 @@ export class Tab2Page {
     'Coco',
   ];
 
-  cargando = false;
-
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService, private modalCtrl: ModalController) {}
 
   buscar(evento: SearchbarCustomEvent): void {
     const valor = evento.detail.value ?? '';
@@ -43,16 +43,25 @@ export class Tab2Page {
     this.buscarPorTexto(idea);
   }
 
+  async detalle(id: number): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: { id },
+    });
+
+    await modal.present();
+  }
+
   private buscarPorTexto(valor: string): void {
     this.textoBuscar = valor;
 
     if (!valor.trim()) {
       this.peliculas = [];
-      this.cargando = false;
+      this.buscando = false;
       return;
     }
 
-    this.cargando = true;
+    this.buscando = true;
     this.peliculas = [];
 
     this.moviesService.buscarPeliculas(valor).subscribe({
@@ -62,9 +71,10 @@ export class Tab2Page {
       error: (error) => {
         console.error('Error al buscar películas', error);
         this.peliculas = [];
+        this.buscando = false;
       },
       complete: () => {
-        this.cargando = false;
+        this.buscando = false;
       },
     });
   }

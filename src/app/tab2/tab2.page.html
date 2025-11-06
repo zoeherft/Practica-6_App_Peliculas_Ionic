@@ -15,15 +15,15 @@
 </ion-toolbar>
 
 <ion-content>
-  <ion-grid>
-    <ion-row class="ion-justify-content-center ion-padding" *ngIf="cargando">
-      <ion-col size="auto">
+  <ion-grid *ngIf="buscando">
+    <ion-row class="ion-justify-content-center ion-padding">
+      <ion-col class="ion-text-center">
         <ion-spinner name="crescent"></ion-spinner>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-list *ngIf="!cargando && peliculas.length === 0">
+  <ion-list *ngIf="!buscando && peliculas.length === 0">
     <ion-list-header>
       <ion-label>Ideas</ion-label>
     </ion-list-header>
@@ -35,7 +35,7 @@
   <ion-grid fixed *ngIf="peliculas.length > 0">
     <ion-row>
       <ion-col size="6" *ngFor="let pelicula of peliculas">
-        <ion-card>
+        <ion-card (click)="detalle(pelicula.id)">
           <img [src]="pelicula.poster_path | imagen" alt="Poster de {{ pelicula.title }}" />
           <ion-card-header>
             <ion-card-subtitle>{{ pelicula.release_date }}</ion-card-subtitle>
