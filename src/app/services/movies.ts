@@ -52,4 +52,12 @@ export class MoviesService {
   getActoresPelicula(id: string): Observable<RespuestaCredits> {
     return this.ejecutarQuery<RespuestaCredits>(`/movie/${id}/credits?a=1`);
   }
+
+  buscarPeliculas(texto: string): Observable<RespuestaMDB> {
+    if (!texto?.trim()) {
+      return this.ejecutarQuery<RespuestaMDB>('/search/movie?query=');
+    }
+    return this.ejecutarQuery<RespuestaMDB>(`/search/movie?query=${texto}`);
+  }
 }
+

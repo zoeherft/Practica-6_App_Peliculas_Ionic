@@ -1,5 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { SearchbarCustomEvent } from '@ionic/angular';
+import { Pelicula, RespuestaMDB } from '../interfaces/interfaces';
+import { MoviesService } from '../services/movies';
 
 @Component({
   selector: 'app-tab2',
@@ -9,10 +11,11 @@ import { SearchbarCustomEvent } from '@ionic/angular';
 })
 export class Tab2Page {
   textoBuscar = '';
+  peliculas: Pelicula[] = [];
   ideas: string[] = [
     'Spiderman',
     'Avengers: Endgame',
-    'El senor de los anillos',
+    'El señor de los anillos',
     'Matrix',
     'Interestelar',
     'Jurassic Park',
@@ -27,10 +30,42 @@ export class Tab2Page {
     'Coco',
   ];
 
-  constructor() {}
+  cargando = false;
+
+  constructor(private moviesService: MoviesService) {}
 
   buscar(evento: SearchbarCustomEvent): void {
-    this.textoBuscar = evento.detail.value ?? '';
-    console.log('Buscando:', this.textoBuscar);
+    const valor = evento.detail.value ?? '';
+    this.buscarPorTexto(valor);
+  }
+
+  buscarIdea(idea: string): void {
+    this.buscarPorTexto(idea);
+  }
+
+  private buscarPorTexto(valor: string): void {
+    this.textoBuscar = valor;
+
+    if (!valor.trim()) {
+      this.peliculas = [];
+      this.cargando = false;
+      return;
+    }
+
+    this.cargando = true;
+    this.peliculas = [];
+
+    this.moviesService.buscarPeliculas(valor).subscribe({
+      next: (resp: RespuestaMDB) => {
+        this.peliculas = resp.results ?? [];
+      },
+      error: (error) => {
+        console.error('Error al buscar películas', error);
+        this.peliculas = [];
+      },
+      complete: () => {
+        this.cargando = false;
+      },
+    });
   }
 }
