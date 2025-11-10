@@ -13,8 +13,6 @@ export class ImagenPipe implements PipeTransform {
       return '';
     }
 
-    const imgUrl = `${URL}/${size}/${img}`;
-    console.log('URL', imgUrl);
-    return imgUrl;
+    return `${URL}/${size}/${img}`;
   }
 }

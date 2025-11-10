@@ -6,10 +6,21 @@ import { PeliculaDetalle } from '../interfaces/interfaces';
 @Injectable({ providedIn: 'root' })
 export class DataLocalService {
   peliculas: PeliculaDetalle[] = [];
+  private storageReady: Promise<void>;
 
-  constructor(private storage: Storage, private toastCtrl: ToastController) {}
+  constructor(private storage: Storage, private toastCtrl: ToastController) {
+    this.storageReady = this.initStorage();
+  }
+
+  private async initStorage(): Promise<void> {
+    await this.storage.create();
+    const almacenadas = await this.storage.get('peliculas');
+    this.peliculas = almacenadas ?? [];
+  }
 
   async guardarPelicula(pelicula: PeliculaDetalle): Promise<void> {
+    await this.storageReady;
+
     let existe = false;
     let mensaje = '';
 
@@ -36,6 +47,7 @@ export class DataLocalService {
     const toast = await this.toastCtrl.create({
       message,
       duration: 1500,
+      position: 'bottom',
     });
 
     await toast.present();
