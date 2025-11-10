@@ -13,7 +13,10 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+<<<<<<< HEAD
         "@angular-eslint/prefer-standalone": "off",
+=======
+>>>>>>> upstream/main
         "@angular-eslint/component-class-suffix": [
           "error",
           {

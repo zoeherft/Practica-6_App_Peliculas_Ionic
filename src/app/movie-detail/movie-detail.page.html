@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true" *ngIf="movie">
+  <div class="backdrop-container">
+    <img [src]="getBackdropUrl(movie.backdrop_path)" class="backdrop"/>
+    <div class="backdrop-overlay"></div>
+    <ion-button fill="clear" class="back-button" (click)="goBack()">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="movie-header">
+      <div class="poster-container">
+        <img [src]="getImageUrl(movie.poster_path)" class="poster"/>
+      </div>
+
+      <div class="header-info">
+        <h1 class="movie-title">{{ movie.title }}</h1>
+
+        <div class="stats">
+          <div class="stat-item">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <div>
+              <span class="stat-label">Rating</span>
+              <span class="stat-value">{{ movie.vote_average?.toFixed(1) }}</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <ion-icon name="star-outline" color="primary"></ion-icon>
+            <div>
+              <span class="stat-label">Votos</span>
+              <span class="stat-value">{{ movie.vote_count }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="movie-details">
+      <p class="overview">{{ movie.overview }}</p>
+
+      <div class="genres" *ngIf="movie.genres && movie.genres.length > 0">
+        <span class="genre-chip" *ngFor="let genre of movie.genres">
+          {{ genre.name }}
+        </span>
+      </div>
+
+      <div class="cast-section" *ngIf="cast.length > 0">
+        <h2>Actores</h2>
+        <div class="cast-list">
+          <div class="cast-item" *ngFor="let actor of cast">
+            <img [src]="getImageUrl(actor.profile_path)" class="cast-photo"/>
+            <p class="cast-name">{{ actor.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button expand="block" fill="outline" (click)="goBack()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        REGRESAR
+      </ion-button>
+
+      <ion-button expand="block" (click)="toggleFavorite()" [color]="isFavorite ? 'warning' : 'primary'">
+        <ion-icon slot="end" [name]="isFavorite ? 'star' : 'star-outline'"></ion-icon>
+        {{ isFavorite ? 'EN FAVORITOS' : 'FAVORITO' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

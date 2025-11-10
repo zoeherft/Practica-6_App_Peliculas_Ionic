@@ -5,18 +5,40 @@
   "projects": {
     "app": {
       "projectType": "application",
+<<<<<<< HEAD
       "schematics": {},
+=======
+      "schematics": {
+        "@ionic/angular-toolkit:page": {
+          "styleext": "scss",
+          "standalone": true
+        }
+      },
+>>>>>>> upstream/main
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
+<<<<<<< HEAD
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
+=======
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "www",
+              "browser": ""
+            },
+            "index": "src/index.html",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
+>>>>>>> upstream/main
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -24,6 +46,7 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+<<<<<<< HEAD
               },
               {
                 "glob": "**/*.svg",
@@ -33,6 +56,13 @@
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": []
+=======
+              }
+            ],
+            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "scripts": [],
+            "browser": "src/main.ts"
+>>>>>>> upstream/main
           },
           "configurations": {
             "production": {
@@ -57,9 +87,13 @@
               "outputHashing": "all"
             },
             "development": {
+<<<<<<< HEAD
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
+=======
+              "optimization": false,
+>>>>>>> upstream/main
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -104,11 +138,14 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+<<<<<<< HEAD
               },
               {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
+=======
+>>>>>>> upstream/main
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
@@ -124,10 +161,14 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
+<<<<<<< HEAD
             "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html"
             ]
+=======
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+>>>>>>> upstream/main
           }
         }
       }
@@ -136,7 +177,12 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
+<<<<<<< HEAD
     ]
+=======
+    ],
+    "analytics": "5da2b231-e4cc-4a66-8954-3b7413bbbae8"
+>>>>>>> upstream/main
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
@@ -144,6 +190,15 @@
     },
     "@ionic/angular-toolkit:page": {
       "styleext": "scss"
+<<<<<<< HEAD
+=======
+    },
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+>>>>>>> upstream/main
     }
   }
 }

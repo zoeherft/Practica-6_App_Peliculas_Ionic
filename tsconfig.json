@@ -5,6 +5,10 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
+<<<<<<< HEAD
+=======
+    "esModuleInterop": true,
+>>>>>>> upstream/main
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -12,16 +16,23 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
+<<<<<<< HEAD
     "downlevelIteration": true,
+=======
+>>>>>>> upstream/main
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2022",
     "module": "es2020",
+<<<<<<< HEAD
     "lib": [
       "es2018", 
       "dom"
     ],
+=======
+    "lib": ["es2018", "dom"],
+>>>>>>> upstream/main
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

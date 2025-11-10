@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -13,9 +14,25 @@ describe('AppComponent', () => {
   });
 
   it('should create the app', () => {
+=======
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  it('should create the app', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideRouter([])]
+    }).compileComponents();
+    
+>>>>>>> upstream/main
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/main
 });

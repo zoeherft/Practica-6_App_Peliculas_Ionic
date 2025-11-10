@@ -1,7 +1,15 @@
 {
+<<<<<<< HEAD
   "name": "peliculasApp",
   "integrations": {
     "capacitor": {}
   },
   "type": "angular"
+=======
+  "name": "practica-6",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+>>>>>>> upstream/main
 }

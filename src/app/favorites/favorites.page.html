@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <div *ngIf="!hasFavorites" class="empty-state">
+    <h2>No tienes películas favoritas</h2>
+    <p>Agrega películas a tus favoritos desde los detalles</p>
+  </div>
+
+  <div *ngIf="hasFavorites">
+    <div class="genre-section" *ngFor="let genre of genres">
+      <h2>{{ genre }}</h2>
+      <swiper-container [slidesPerView]="3.5" [spaceBetween]="10" [freeMode]="true">
+        <swiper-slide *ngFor="let movie of favoritesByGenre.get(genre)" (click)="openMovie(movie.id)">
+          <img [src]="getImageUrl(movie.poster_path)" class="poster" />
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </div>
+</ion-content>

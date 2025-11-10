@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Películas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <div class="section">
+    <h2>Películas Nuevas</h2>
+    <swiper-container
+      [slidesPerView]="1.15"
+      [spaceBetween]="12"
+      [freeMode]="true"
+    >
+      <swiper-slide *ngFor="let movie of nuevas" (click)="openMovie(movie.id)">
+        <div class="banner-wrapper">
+          <img [src]="getBackdropUrl(movie.backdrop_path)" class="banner" />
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div class="section">
+    <h2>Cartelera</h2>
+    <swiper-container
+      [slidesPerView]="3.5"
+      [spaceBetween]="10"
+      [freeMode]="true"
+    >
+      <swiper-slide
+        *ngFor="let movie of cartelera"
+        (click)="openMovie(movie.id)"
+      >
+        <div class="poster-wrapper">
+          <img [src]="getImageUrl(movie.poster_path)" class="poster" />
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div class="section">
+    <h2>Populares</h2>
+    <div class="horizontal-scroll">
+      <div class="grid-wrapper">
+        <div class="grid-column" *ngFor="let column of getPopularColumns()">
+          <div
+            class="grid-item"
+            *ngFor="let item of column"
+            [class.load-more-item]="item.isLoadMore"
+            (click)="item.isLoadMore ? loadMorePopular() : openMovie(item.id)"
+          >
+            <img
+              *ngIf="!item.isLoadMore"
+              [src]="getImageUrl(item.poster_path)"
+              class="poster"
+            />
+            <div *ngIf="item.isLoadMore" class="load-more-card">
+              <ion-spinner *ngIf="loadingMore" name="crescent"></ion-spinner>
+              <ion-icon
+                *ngIf="!loadingMore"
+                name="add-circle-outline"
+              ></ion-icon>
+              <p>{{ loadingMore ? 'Cargando...' : 'Cargar más' }}</p>
+            </div>
+            <p class="movie-title" *ngIf="!item.isLoadMore">{{ item.title }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
