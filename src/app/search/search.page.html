@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Buscar Película</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="onSearchChange($event)"
+    placeholder="Buscar película"
+    [debounce]="500"
+  >
+  </ion-searchbar>
+
+  <div *ngIf="movies.length === 0" class="ideas-section">
+    <h3>Ideas</h3>
+    <ion-list>
+      <ion-item
+        *ngFor="let idea of ideas"
+        (click)="searchIdea(idea)"
+        button
+        color="dark"
+      >
+        <ion-label>{{ idea }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-grid *ngIf="movies.length > 0">
+    <ion-row>
+      <ion-col
+        size="4"
+        *ngFor="let movie of movies"
+        (click)="openMovie(movie.id)"
+      >
+        <img
+          [src]="moviesService.getImageUrl(movie.poster_path)"
+          class="poster"
+        />
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
